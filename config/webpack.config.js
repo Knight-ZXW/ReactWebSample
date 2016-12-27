@@ -24,12 +24,12 @@ const webpackConfig = {
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY = project.paths.client('main.js')
-
+const APP_ENTRY = project.paths.client('main.js');
+const WHATWG_FETCH = 'whatwg-fetch';
 webpackConfig.entry = {
   app: __DEV__
-    ? [APP_ENTRY].concat(`webpack-hot-middleware/client?path=${project.compiler_public_path}__webpack_hmr`)
-    : [APP_ENTRY],
+    ? [WHATWG_FETCH, APP_ENTRY].concat(`webpack-hot-middleware/client?path=${project.compiler_public_path}__webpack_hmr`)
+    : [WHATWG_FETCH, APP_ENTRY],
   vendor: project.compiler_vendors
 }
 
@@ -54,6 +54,9 @@ webpackConfig.externals['react/addons'] = true
 // Plugins
 // ------------------------------------
 webpackConfig.plugins = [
+  new webpack.ProvidePlugin({
+    'fetch': 'exports?self.fetch!whatwg-fetch'
+  }),
   new webpack.DefinePlugin(project.globals),
   new HtmlWebpackPlugin({
     template: project.paths.client('index.html'),
@@ -65,7 +68,8 @@ webpackConfig.plugins = [
       collapseWhitespace: true
     }
   })
-]
+];
+
 
 // Ensure that the compiler exits on errors during testing so that
 // they do not get skipped and misreported.
@@ -222,4 +226,4 @@ if (!__DEV__) {
   )
 }
 
-module.exports = webpackConfig
+module.exports = webpackConfig;
