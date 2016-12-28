@@ -1,16 +1,16 @@
-const argv = require('yargs').argv
-const webpack = require('webpack')
-const cssnano = require('cssnano')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const project = require('./project.config')
-const debug = require('debug')('app:config:webpack')
+const argv = require('yargs').argv;
+const webpack = require('webpack');
+const cssnano = require('cssnano');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const project = require('./project.config');
+const debug = require('debug')('app:config:webpack');
 
-const __DEV__ = project.globals.__DEV__
-const __PROD__ = project.globals.__PROD__
-const __TEST__ = project.globals.__TEST__
+const __DEV__ = project.globals.__DEV__;
+const __PROD__ = project.globals.__PROD__;
+const __TEST__ = project.globals.__TEST__;
 
-debug('Creating configuration.')
+debug('Creating configuration.');
 const webpackConfig = {
   name: 'client',
   target: 'web',
@@ -20,7 +20,7 @@ const webpackConfig = {
     extensions: ['', '.js', '.jsx', '.json']
   },
   module: {}
-}
+};
 // ------------------------------------
 // Entry Points
 // ------------------------------------
@@ -31,7 +31,7 @@ webpackConfig.entry = {
     ? [WHATWG_FETCH, APP_ENTRY].concat(`webpack-hot-middleware/client?path=${project.compiler_public_path}__webpack_hmr`)
     : [WHATWG_FETCH, APP_ENTRY],
   vendor: project.compiler_vendors
-}
+};
 
 // ------------------------------------
 // Bundle Output
@@ -40,15 +40,15 @@ webpackConfig.output = {
   filename: `[name].[${project.compiler_hash_type}].js`,
   path: project.paths.dist(),
   publicPath: project.compiler_public_path
-}
+};
 
 // ------------------------------------
 // Externals
 // ------------------------------------
-webpackConfig.externals = {}
-webpackConfig.externals['react/lib/ExecutionEnvironment'] = true
-webpackConfig.externals['react/lib/ReactContext'] = true
-webpackConfig.externals['react/addons'] = true
+webpackConfig.externals = {};
+webpackConfig.externals['react/lib/ExecutionEnvironment'] = true;
+webpackConfig.externals['react/lib/ReactContext'] = true;
+webpackConfig.externals['react/addons'] = true;
 
 // ------------------------------------
 // Plugins
@@ -136,7 +136,7 @@ webpackConfig.module.loaders = [{
 // ------------------------------------
 // We use cssnano with the postcss loader, so we tell
 // css-loader not to duplicate minimization.
-const BASE_CSS_LOADER = 'css?sourceMap&-minimize'
+const BASE_CSS_LOADER = 'css?sourceMap&-minimize';
 
 webpackConfig.module.loaders.push({
   test: /\.scss$/,
@@ -147,7 +147,7 @@ webpackConfig.module.loaders.push({
     'postcss',
     'sass?sourceMap'
   ]
-})
+});
 webpackConfig.module.loaders.push({
   test: /\.css$/,
   exclude: null,
@@ -156,11 +156,11 @@ webpackConfig.module.loaders.push({
     BASE_CSS_LOADER,
     'postcss'
   ]
-})
+});
 
 webpackConfig.sassLoader = {
   includePaths: project.paths.client('styles')
-}
+};
 
 webpackConfig.postcss = [
   cssnano({
@@ -178,7 +178,7 @@ webpackConfig.postcss = [
     safe: true,
     sourcemap: true
   })
-]
+];
 
 // File loaders
 /* eslint-disable */
