@@ -1,1 +1,1 @@
- 一些javascirpt 学习过程中的源码测试
+## 在学习 javascipt 及 react 中的一些练习
